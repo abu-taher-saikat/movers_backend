@@ -2,8 +2,14 @@ const auth = require('./authRoutes')
 
 
 const route = [{
-        path: '/auth',
+        path: '/api/v1/auth',
         handler: auth
+    },
+    {
+        path: '/',
+        handler: (req,res,next)=>{
+            res.send('sdfsfs')
+        }
     }
 ]
 
