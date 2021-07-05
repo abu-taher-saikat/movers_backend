@@ -1,3 +1,0 @@
-// exports.getRegisterController = async ()=>{
-    
-// }

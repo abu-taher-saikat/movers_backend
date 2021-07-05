@@ -9,14 +9,8 @@ dotenv.config({path : './config/.env'});
 
 // Database connection middlewares
 const connectDB = require('./config/db');
-// express error handler.
-// const {notFound, errorHandler} = require('./middleware/errorMiddleware');
+
 const errorHandler = require('./middleware/error');
-
-
-
-// const auth = require('./routes/authRoutes');
-
 
 
 const app = express();
@@ -37,15 +31,7 @@ rootMiddleware(app)
 rootRoutes(app)
 
 
-// app.use('/api/v1/auth', auth);
-
-
-
-
-// calling back error handler. you have to remember it's a middle ware.and middleware need to be call after calling routes , that;s why it's on the bottom of everything..
-// Error handler middlewares . 
-// app.use(notFound);
-// app.use(errorHandler);
+// error Handling.
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;

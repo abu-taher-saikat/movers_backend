@@ -73,7 +73,7 @@ AdminSchema.methods.matchPassword = async function(enteredPassword){
     return await bcrypt.compare(enteredPassword, this.password);
   }
 
-  AdminSchema.methods.getSignedJwtToken = function(){
+AdminSchema.methods.getSignedJwtToken = function(){
     return jwt.sign({id : this._id}, process.env.JWT_SECRET, {
         expiresIn : process.env.JWT_EXPIRE
     });
@@ -81,21 +81,21 @@ AdminSchema.methods.matchPassword = async function(enteredPassword){
 
 
 //   Generate and hash password token   
-AdminSchema.methods.getResetPasswordToken = function(){
-    // Genereate Token
-    const resetToken = crypto.randomBytes(20).toString('hex');
-    console.log(resetToken.green);
-    // Hash token and set the resetPassword token field 
-    this.resetPasswordToken = crypto
-        .createHash('sha256')
-        .update(resetToken)
-        .digest('hex');
-    console.log(resetToken.pink);
-    // Set expire 
-    this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+// AdminSchema.methods.getResetPasswordToken = function(){
+//     // Genereate Token
+//     const resetToken = crypto.randomBytes(20).toString('hex');
+//     console.log(resetToken.green);
+//     // Hash token and set the resetPassword token field 
+//     this.resetPasswordToken = crypto
+//         .createHash('sha256')
+//         .update(resetToken)
+//         .digest('hex');
+//     console.log(resetToken.pink);
+//     // Set expire 
+//     this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
 
-    return resetToken;
-}
+//     return resetToken;
+// }
 
 
 const Admin = model('Admin',AdminSchema)
