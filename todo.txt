@@ -5,3 +5,7 @@ Gmail = dhhasansaha11@gmail.com
 TOOD LIST
  ## models
  ## routes
+    ## profile picture.
+    ## reset password.
+    ## forget password.
+    ## email +.

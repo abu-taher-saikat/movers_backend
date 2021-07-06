@@ -7,7 +7,8 @@ const connectDB =  async ()=>{
             //must add in order to not get any error masseges:
             useUnifiedTopology:true,
             useNewUrlParser: true,
-            useCreateIndex: true
+            useCreateIndex: true,
+            useFindAndModify : false
         })
         console.log(`mongo database is connected!!! ${conn.connection.host} `.cyan.underline)
     }catch(error){

@@ -61,6 +61,26 @@ exports.login = asyncHandler(async (req, res, next) => {
   sendTokenResponse(user, 200, res);
 })
 
+// @desc   Get Current Logged in User
+// @route  GET /api/v1/auth/myaccount
+// @access Public
+exports.myaccount = asyncHandler(async(req, res, next) => {
+  const currentUser = req.user.id;
+  console.log(currentUser);
+
+  const getUserInfo = await Admin.findById(currentUser);
+
+  if(!getUserInfo){
+    return next(new ErrorResponse(`no user found with this  id`, 404));
+  }
+
+  res.status(200).json({
+    success : true,
+    data : getUserInfo
+  })
+
+});
+
 
 
 
@@ -85,7 +105,7 @@ exports.getAllUsers = asyncHandler(async(req, res, next) => {
 
 // @desc   Get a specific user by userID
 // @route  GET /api/v1/auth/admin/:id
-// @access Public
+// @access Private
 exports.getSingleAdmin = asyncHandler(async(req, res, next) => {
     const {id} = req.params;
 
@@ -106,7 +126,7 @@ exports.getSingleAdmin = asyncHandler(async(req, res, next) => {
 
 // @desc   Delete A Admin by ID
 // @route  DELETE /api/v1/auth/admin/:id
-// @access Public
+// @access Private
 exports.deleteSingleAdmin = asyncHandler(async(req, res, next) => {
   const {id} = req.params;
   
@@ -124,44 +144,19 @@ exports.deleteSingleAdmin = asyncHandler(async(req, res, next) => {
 
 })
 
-// exports.updateNote = asyncHandler(async(req, res, next) => {
-//   let note = await Note.findById(req.params.id);
 
-//   if(!note){
-//       return next(new ErrorResponse(`can't find notes with this id ${req.params.id}`, 400 ));
-//   }
-
-//   // Make sure USER is note owner
-//   if(note.user.toString() !== req.user.id){
-//       return  next(new ErrorResponse(`User ${req.params.id} is not authorized to update this note`, 401));
-//   }
-
-//   // find by id an update.
-//   note = await Note.findByIdAndUpdate(req.params.id, req.body, {
-//       new : true,
-//       runValidators : true
-//   });
-
-//   // console.log(req.body.red);
-//   // console.log(req.params.id.green);
-
-//   res.status(200).json({
-//       success : true,
-//       data : note
-//   })
-// });
 
 
 // @desc   Edit A Admin by ID
 // @route  PUT /api/v1/auth/edit/:id
-// @access Public
+// @access Private
 exports.updateSingleAdmin = asyncHandler(async(req, res, next) => {
   const {id} = req.params;
 
   // get the spacific admin with id.
   // let getAdmin = await Admin.findById(id);
 
-  const editAdmin = await Admin.findByIdAndUpdate(id , req.body, {
+  editAdmin = await Admin.findByIdAndUpdate(id , req.body, {
       new : true,
       runValidators : true
   });
