@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const {register, login, getAllUsers, getSingleAdmin,deleteSingleAdmin, updateSingleAdmin, myaccount} = require('../controllers/authControllers');
+const {register, login, getAllUsers, getSingleAdmin,deleteSingleAdmin, updateSingleAdmin, myaccount , getAllJobByAdmin} = require('../controllers/authControllers');
 
 const { protect, authorize } = require('../middleware/auth');
 
@@ -11,6 +11,7 @@ router.route('/alladmins').get(protect, authorize('admin'), getAllUsers)
 router.route('/admin/:id').get(protect,authorize('admin'), getSingleAdmin).delete(protect,authorize('admin'), deleteSingleAdmin);
 router.route('/admin/edit/:id').put(protect,authorize('admin'), updateSingleAdmin);
 router.route('/myaccount').get(protect, myaccount);
+// router.route('/alljobs').get(protect, authorize('admin'), getAllJobByAdmin);
 // router.post('/login', login)
 
 

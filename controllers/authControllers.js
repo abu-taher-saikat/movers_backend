@@ -1,7 +1,11 @@
 
-const Admin = require('../models/AdminModel'); 
 const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../utils/ErrorResponse');
+const Admin = require('../models/AdminModel');
+
+
+// not working 
+// const JobList = require('../models/JobListModel');
 
 
 // @desc   Register a user
@@ -154,7 +158,7 @@ exports.updateSingleAdmin = asyncHandler(async(req, res, next) => {
   const {id} = req.params;
 
   // get the spacific admin with id.
-  // let getAdmin = await Admin.findById(id);
+  let editAdmin = await Admin.findById(id);
 
   editAdmin = await Admin.findByIdAndUpdate(id , req.body, {
       new : true,
@@ -173,6 +177,27 @@ exports.updateSingleAdmin = asyncHandler(async(req, res, next) => {
   })
   
 })
+
+
+// @desc   Get all jobs By Admin
+// @route  PUT /api/v1/auth/alljobs
+// @access Private
+// exports.getAllJobByAdmin = asyncHandler(async(req, res, next) => {
+//   // get the spacific admin with id.
+//   const allJobs = await JobList.find();
+
+//   // if no jobs find with the id.
+//   if(!allJobs){
+//     return next(new ErrorResponse(`no job found`, 404));
+//   }
+
+//   res.status(200).json({
+//     success:true,
+//     count : allJobs.length,
+//     data: allJobs,
+//   })
+  
+// })
 
 
 

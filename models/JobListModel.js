@@ -45,10 +45,22 @@ const JobListSchema =  new Schema({
               default : 1
           }
         }],
-        advancePay:Number,
-        due: Number,
-        vat: Number,
-        isPaid: false,
+        advancePay:{
+            type : Number,
+            default : 0.00
+        },
+        due: {
+            type : Number,
+            default : 0.00
+        },
+        vat: {
+            type : Number,
+            default : 0.00
+        },
+        isPaid: {
+            type : Boolean,
+            default : false
+        },
         payment: Number,
         status: {
             type:String,
@@ -61,10 +73,13 @@ const JobListSchema =  new Schema({
 },{
     timestamps: true 
 })
-const JobList = model('JobList',JobListSchema)
+const JobList = model('JobList', JobListSchema)
 module.exports = JobList
 
+// module.exports = joblist = model('joblist', JobListSchema)
 
 
+// module.exports =
+//         model.JobList || model('JobList', JobListSchema);
 
 

@@ -1,7 +1,17 @@
 const auth = require('./authRoutes')
+const joblist = require('./joblistRoutes')
+const cost = require('./costRoutes');
 
-
-const route = [{
+const route = [
+    {
+        path : '/api/v1/cost',
+        handler : cost
+    },
+    {
+        path: '/api/v1/joblist',
+        handler: joblist
+    },
+    {
         path: '/api/v1/auth',
         handler: auth
     },
