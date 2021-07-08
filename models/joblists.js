@@ -1,6 +1,6 @@
-const {Schema,model}  = require('mongoose')
+const mongoose = require('mongoose');
 
-const JobListSchema =  new Schema({
+const JobListSchema = new mongoose.Schema({
         customerName : {
             type : String,
             required : [true, 'Please add customer Name'],
@@ -67,19 +67,13 @@ const JobListSchema =  new Schema({
         },
         notes:String,
         managerId: {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'AdminModel'
         },
 },{
     timestamps: true 
 })
-const JobList = model('JobList', JobListSchema)
-module.exports = JobList
 
-// module.exports = joblist = model('joblist', JobListSchema)
-
-
-// module.exports =
-//         model.JobList || model('JobList', JobListSchema);
+module.exports = mongoose.model('joblists', JobListSchema);
 
 

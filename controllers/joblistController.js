@@ -1,20 +1,18 @@
 
 const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../utils/ErrorResponse');
-const JobList = require('../models/jobListModel');
-const Admin = require('../models/AdminModel'); 
-// const CostList = require('../models/CostModel');
+const joblists = require('../models/joblists');
+const admin = require('../models/admin');
 
 
-
-// @desc   create a joblist
-// @route  POST /api/v1/joblist/create
+// @desc   create a joblists
+// @route  POST /api/v1/joblists/create
 // @access Private(manager)
 exports.create = asyncHandler(async(req, res, next) => {
     const managerId = req.user.id ;
     const {customerName, email, phone, moveFrom, moveTo,notes, movingDate,items,advancePay,due,vat,isPaid,payment,status} = req.body;
 
-    const joblist = await JobList.create({
+    const joblists = await joblists.create({
         customerName,
         email,
         phone,
@@ -32,24 +30,24 @@ exports.create = asyncHandler(async(req, res, next) => {
         managerId,
     })
 
-    if(!joblist){
+    if(!joblists){
         return next(new ErrorResponse('Job List creating failed', 400));
 
     }
     
     res.status(200).json({
         success: true,
-        data: joblist,
+        data: joblists,
     })
 })
 
 
 // @desc   get All Job lists by indivisual manager
-// @route  POST /api/v1/joblist/getjobesbymanagerid
+// @route  POST /api/v1/joblists/getjobesbymanagerid
 // @access Private(admin, manager)
 exports.getJobByManagerId = asyncHandler(async(req, res, next) => {
     const id = req.user.id
-    const managerJob = await JobList.find({managerId : id});
+    const managerJob = await joblists.find({managerId : id});
 
     // if no jobs found with this manager id
     if(!managerJob){
@@ -65,12 +63,12 @@ exports.getJobByManagerId = asyncHandler(async(req, res, next) => {
 
 
 // @desc   get All Job lists by indivisual manager
-// @route  POST /api/v1/joblist/getmanagerjobsbyadmin/:id
+// @route  POST /api/v1/joblists/getmanagerjobsbyadmin/:id
 // @access Private(admin, manager)
 exports.getManagerJobsByAdmin = asyncHandler(async(req, res, next) => {
     const {id} = req.params;
 
-    const managerJob = await JobList.find({managerId : id});
+    const managerJob = await joblists.find({managerId : id});
 
     // if no jobs found with this manager id
     if(!managerJob){
@@ -86,42 +84,42 @@ exports.getManagerJobsByAdmin = asyncHandler(async(req, res, next) => {
 
 
 // @desc   update A Job list with job id.
-// @route  POST /api/v1/joblist/update/:id
+// @route  POST /api/v1/joblists/update/:id
 // @access Private
 exports.update = asyncHandler(async(req, res, next) => {
     const {id} = req.params;
 
   // get the spacific admin with id.
-  let editJobList = await JobList.findById(id);
+  let editjoblists = await joblists.findById(id);
 
-  editJobList = await JobList.findByIdAndUpdate(id , req.body, {
+  editjoblists = await joblists.findByIdAndUpdate(id , req.body, {
       new : true,
       runValidators : true
   });
 
   // if no user find with the id.
-  if(!editJobList){
+  if(!editjoblists){
     return next(new ErrorResponse(`no job found with this ${id} id`, 404));
   }
 
   res.status(200).json({
     success:true,
-    data: editJobList
+    data: editjoblists
   })
 
 })
 
 
-// @desc   Delete A Joblist by ID
+// @desc   Delete A joblists by ID
 // @route  DELETE /api/v1/auth/delete/:id
 // @access Private
 exports.deleteJob = asyncHandler(async(req, res, next) => {
     const {id} = req.params;
     
-    const deleteJoblist = await JobList.findByIdAndRemove(id);
+    const deletejoblists = await joblists.findByIdAndRemove(id);
     
     // if no user find with the id.
-    if(!deleteJoblist){
+    if(!deletejoblists){
       return next(new ErrorResponse(`no job found with this ${id} id`, 404));
     }
   
@@ -139,7 +137,7 @@ exports.deleteJob = asyncHandler(async(req, res, next) => {
 // @access Private
 exports.getAllJobByAdmin = asyncHandler(async(req, res, next) => {
   // get the spacific admin with id.
-  const allJobs = await JobList.find();
+  const allJobs = await joblists.find();
 
   // if no jobs find with the id.
   if(!allJobs){

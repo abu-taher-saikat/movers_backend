@@ -1,6 +1,8 @@
-const {Schema,model}  = require('mongoose')
+// const {Schema,model}  = require('mongoose')
+const mongoose = require('mongoose');
 
-const CostListSchema =  new Schema({
+
+const costListSchema = new mongoose.Schema({
         costList :[{
             costName : {
                 type : String,
@@ -16,11 +18,11 @@ const CostListSchema =  new Schema({
             }
           }],
         jobListId: {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'JobListModel'
         },
         managerId: {
-            type: Schema.Types.Objectid,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'AdminModel'
         },
         total: {
@@ -31,8 +33,11 @@ const CostListSchema =  new Schema({
     timestamps: true 
 })
 
-const CostList = model('CostList',CostListSchema)
-module.exports = CostList
+
+module.exports = mongoose.model('costlist', costListSchema);
+
+// const CostList = model('costlist',costListSchema)
+// module.exports = CostList
 
 
 

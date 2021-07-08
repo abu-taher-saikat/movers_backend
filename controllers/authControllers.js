@@ -1,7 +1,9 @@
 
 const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../utils/ErrorResponse');
-const Admin = require('../models/AdminModel');
+// const Admin = require('../models/AdminModel');
+const admin = require('../models/admin');
+// const joblists = require('../models/joblists');
 
 
 // not working 
@@ -16,7 +18,7 @@ exports.register = asyncHandler(async(req, res, next) => {
     const {fullName, email, password, role, phone} = req.body;
 
     // Create user 
-    const admin = await Admin.create({
+    const admin = await admin.create({
         fullName,
         email, 
         password,
@@ -42,7 +44,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   }
 
   //Check for user
-  const user = await Admin.findOne({
+  const user = await admin.findOne({
       email
   }).select('+password');
 
@@ -72,7 +74,7 @@ exports.myaccount = asyncHandler(async(req, res, next) => {
   const currentUser = req.user.id;
   console.log(currentUser);
 
-  const getUserInfo = await Admin.findById(currentUser);
+  const getUserInfo = await admin.findById(currentUser);
 
   if(!getUserInfo){
     return next(new ErrorResponse(`no user found with this  id`, 404));
@@ -92,7 +94,7 @@ exports.myaccount = asyncHandler(async(req, res, next) => {
 // @route  GET /api/v1/auth/alladmins
 // @access Public
 exports.getAllUsers = asyncHandler(async(req, res, next) => {
-  const alluser = await Admin.find();
+  const alluser = await admin.find();
   if(!alluser){
     res.status(200).json({
         success : true,
@@ -113,7 +115,7 @@ exports.getAllUsers = asyncHandler(async(req, res, next) => {
 exports.getSingleAdmin = asyncHandler(async(req, res, next) => {
     const {id} = req.params;
 
-    const singleAdmin = await Admin.findById(id);
+    const singleAdmin = await admin.findById(id);
     
     // if no user find with the id.
     if(!singleAdmin){
@@ -134,7 +136,7 @@ exports.getSingleAdmin = asyncHandler(async(req, res, next) => {
 exports.deleteSingleAdmin = asyncHandler(async(req, res, next) => {
   const {id} = req.params;
   
-  const deleteAdmin = await Admin.findByIdAndRemove(id);
+  const deleteAdmin = await admin.findByIdAndRemove(id);
   
   // if no user find with the id.
   if(!deleteAdmin){
@@ -158,9 +160,9 @@ exports.updateSingleAdmin = asyncHandler(async(req, res, next) => {
   const {id} = req.params;
 
   // get the spacific admin with id.
-  let editAdmin = await Admin.findById(id);
+  let editAdmin = await admin.findById(id);
 
-  editAdmin = await Admin.findByIdAndUpdate(id , req.body, {
+  editAdmin = await admin.findByIdAndUpdate(id , req.body, {
       new : true,
       runValidators : true
   });

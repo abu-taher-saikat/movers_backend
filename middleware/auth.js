@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken');
 const asyncHandler = require('./async');
 const ErrorResponse = require('../utils/ErrorResponse');
-const Admin = require('../models/AdminModel');
+// const Admin = require('../models/AdminModel');
+// const Admin = require('../models/admin');
+const admin = require('../models/admin');
 
 
 // Protect routers (where we use protect user has to login)
@@ -27,7 +29,7 @@ exports.protect = asyncHandler(async(req, res, next) => {
 
             console.log('decoded', decoded);
 
-        req.user = await Admin.findById(decoded.id);
+        req.user = await admin.findById(decoded.id);
         next();
     }catch(err){
         return next(new ErrorResponse('Not authorized to access this route at last', 401));

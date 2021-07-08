@@ -1,10 +1,10 @@
-const {Schema,model}  = require('mongoose');
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
 
-const AdminSchema =  new Schema({
+const adminSchema = new mongoose.Schema({
         // profilePic: {
         //     type : String,
         //     default: '/uploads/profile.png'
@@ -59,7 +59,7 @@ const AdminSchema =  new Schema({
 
 
 // Encrypt password using bcrypt
-AdminSchema.pre('save', async function(next){
+adminSchema.pre('save', async function(next){
     if(!this.isModified('password')){
         next()
     }
@@ -69,11 +69,11 @@ AdminSchema.pre('save', async function(next){
 
 
 // Match user entered password to hashed password in database
-AdminSchema.methods.matchPassword = async function(enteredPassword){
+adminSchema.methods.matchPassword = async function(enteredPassword){
     return await bcrypt.compare(enteredPassword, this.password);
   }
 
-AdminSchema.methods.getSignedJwtToken = function(){
+adminSchema.methods.getSignedJwtToken = function(){
     return jwt.sign({id : this._id}, process.env.JWT_SECRET, {
         expiresIn : process.env.JWT_EXPIRE
     });
@@ -97,6 +97,7 @@ AdminSchema.methods.getSignedJwtToken = function(){
 //     return resetToken;
 // }
 
+module.exports = mongoose.model('admin', adminSchema);
 
-const Admin = model('Admin',AdminSchema)
-module.exports = Admin
+// const Admin = model('Admin',AdminSchema)
+// module.exports = Admin

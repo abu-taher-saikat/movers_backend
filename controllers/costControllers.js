@@ -1,7 +1,8 @@
 
 const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../utils/ErrorResponse');
-// const CostList = require('../models/CostList');
+const costlist = require('../models/costlist');
+const joblists = require('../models/joblists')
 
 
 
@@ -13,7 +14,7 @@ exports.create = asyncHandler(async(req, res, next) => {
 
     const {costList, jobListId,  total } = req.body;
 
-    const costlist = await CostList.create({
+    const costlist = await costlist.create({
         costList, jobListId, total, managerId
     })
 
