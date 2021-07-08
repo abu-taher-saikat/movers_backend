@@ -6,7 +6,7 @@ const joblists = require('../models/joblists')
 
 
 
-// @desc   create a joblist
+// @desc   create a costlist
 // @route  POST /api/v1/joblist/create/
 // @access Private(manager)
 exports.create = asyncHandler(async(req, res, next) => {
@@ -14,18 +14,41 @@ exports.create = asyncHandler(async(req, res, next) => {
 
     const {costList, jobListId,  total } = req.body;
 
-    const costlist = await costlist.create({
+    const createcosts = await costlist.create({
         costList, jobListId, total, managerId
     })
 
-    if(!costlist){
-        return next(new ErrorResponse('Job List creating failed', 400));
-
+    if(!createcosts){
+        return next(new ErrorResponse('Cost List creating failed', 400));
     }
     
     res.status(200).json({
         success: true,
-        data: joblist,
+        data: createcosts,
     })
 })
+
+
+
+
+
+// @desc   get a costlist
+// @route  GET /api/v1/cost/getcostbyjobid/:id
+// @access Private(manager)
+exports.getCostById = asyncHandler(async(req, res, next) => {
+    const {id} = req.params;
+
+
+    const createcosts = await costlist.findById(id).populate()
+
+    if(!createcosts){
+        return next(new ErrorResponse('Cost List creating failed', 400));
+    }
+    
+    res.status(200).json({
+        success: true,
+        data: createcosts,
+    })
+})
+
 

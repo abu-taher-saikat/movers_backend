@@ -12,7 +12,7 @@ exports.create = asyncHandler(async(req, res, next) => {
     const managerId = req.user.id ;
     const {customerName, email, phone, moveFrom, moveTo,notes, movingDate,items,advancePay,due,vat,isPaid,payment,status} = req.body;
 
-    const joblists = await joblists.create({
+    const cratejoblists = await joblists.create({
         customerName,
         email,
         phone,
@@ -29,15 +29,16 @@ exports.create = asyncHandler(async(req, res, next) => {
         notes,
         managerId,
     })
+    
 
-    if(!joblists){
+    if(!cratejoblists){
         return next(new ErrorResponse('Job List creating failed', 400));
 
     }
     
     res.status(200).json({
         success: true,
-        data: joblists,
+        data: cratejoblists,
     })
 })
 

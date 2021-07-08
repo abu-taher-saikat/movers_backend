@@ -67,8 +67,12 @@ const JobListSchema = new mongoose.Schema({
         },
         notes:String,
         managerId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'AdminModel'
+            type: mongoose.Schema.ObjectId,
+            ref: 'admin'
+        },
+        costListId: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'costlist'
         },
 },{
     timestamps: true 

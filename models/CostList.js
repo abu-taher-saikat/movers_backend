@@ -8,7 +8,7 @@ const costListSchema = new mongoose.Schema({
                 type : String,
                 required : [true, 'Please add a Cost Name']
             },
-            itemQuantity : {
+            quantity : {
                 type : Number,
                 default : 1
             },
@@ -18,12 +18,12 @@ const costListSchema = new mongoose.Schema({
             }
           }],
         jobListId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'JobListModel'
+            type: mongoose.Schema.ObjectId,
+            ref: 'joblists'
         },
         managerId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'AdminModel'
+            type: mongoose.Schema.ObjectId,
+            ref: 'admin'
         },
         total: {
             type : Number,
