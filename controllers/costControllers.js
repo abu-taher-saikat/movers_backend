@@ -17,6 +17,11 @@ exports.create = asyncHandler(async(req, res, next) => {
     const createcosts = await costlist.create({
         costList, jobListId, total, managerId
     })
+    await joblists.findOneAndUpdate({ _id: jobListId }, {
+        $push: {
+            costListId: createcosts._id
+        }
+    })
 
     if(!createcosts){
         return next(new ErrorResponse('Cost List creating failed', 400));
@@ -39,7 +44,7 @@ exports.getCostById = asyncHandler(async(req, res, next) => {
     const {id} = req.params;
 
 
-    const createcosts = await costlist.findById(id).populate()
+    const createcosts = await costlist.findById(id)
 
     if(!createcosts){
         return next(new ErrorResponse('Cost List creating failed', 400));
@@ -48,6 +53,34 @@ exports.getCostById = asyncHandler(async(req, res, next) => {
     res.status(200).json({
         success: true,
         data: createcosts,
+    })
+})
+
+
+
+
+// @desc   Update a costlist
+// @route  PUT /api/v1/cost/update/:id
+// @access Private(manager)
+exports.update = asyncHandler(async(req, res, next) => {
+    const {id} = req.params;
+
+    // get the spacific admin with id.
+    let editcostlist = await costlist.findById(id);
+  
+    editcostlist = await costlist.findByIdAndUpdate(id , req.body, {
+        new : true,
+        runValidators : true
+    });
+  
+    // if no user find with the id.
+    if(!editcostlist){
+      return next(new ErrorResponse(`no cost list find with this  cost id${id} id`, 404));
+    }
+  
+    res.status(200).json({
+      success:true,
+      data: editcostlist
     })
 })
 
