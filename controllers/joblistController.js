@@ -29,6 +29,7 @@ exports.create = asyncHandler(async(req, res, next) => {
         notes,
         managerId,
     })
+
     
 
     if(!cratejoblists){
@@ -71,6 +72,7 @@ exports.getManagerJobsByAdmin = asyncHandler(async(req, res, next) => {
 
     const managerJob = await joblists.find({managerId : id});
 
+    
     // if no jobs found with this manager id
     if(!managerJob){
         return next(new ErrorResponse('No job found with this manager id', 400));
@@ -90,6 +92,7 @@ exports.getManagerJobsByAdmin = asyncHandler(async(req, res, next) => {
 exports.update = asyncHandler(async(req, res, next) => {
     const {id} = req.params;
 
+    
   // get the spacific admin with id.
   let editjoblists = await joblists.findById(id);
 
